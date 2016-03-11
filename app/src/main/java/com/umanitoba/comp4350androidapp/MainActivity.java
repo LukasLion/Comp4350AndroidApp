@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
                 UserAccountFragment.class, null);
         mTabHost.addTab(
                 mTabHost.newTabSpec("tab1").setIndicator("Page 2", null),
-                PlaceholderFragment.class, null);
+                UserProfile.class, null);
         mTabHost.addTab(
                 mTabHost.newTabSpec("tab2").setIndicator("Page 3", null),
                 PlaceholderFragment.class, null);
