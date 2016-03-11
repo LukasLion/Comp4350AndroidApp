@@ -2,7 +2,6 @@ package com.umanitoba.comp4350androidapp;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -28,23 +27,9 @@ import android.os.Build;
 import android.widget.TabHost;
 import android.os.Message;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.MapsInitializer;
-
-import android.location.Location;
-
-public class MainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener{
+public class MainActivity extends Activity {
 
     private FragmentTabHost mTabHost;
-    private LocationRequest mLocationRequest;
-    private GoogleApiClient mLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,84 +51,18 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         mTabHost.addTab(
                 mTabHost.newTabSpec("tab3").setIndicator("Page 4", null),
                 PlaceholderFragment.class, null);
-
-
-        //mLocationRequest = LocationRequest.create();
-        //mLocationRequest.setInterval(1000);
-        //mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        //mLocationRequest.setFastestInterval(1000);
-        //mLocationClient = new GoogleApiClient.Builder(getApplicationContext())
-        //        .addApi(LocationServices.API)
-        //        .addConnectionCallbacks(this)
-        //        .addOnConnectionFailedListener(this)
-        //        .build();
-
-
-        //if (MapsInitializer.initialize(this) != ConnectionResult.SUCCESS) {
-
-       // }
     }
 
     //Activity Start
     @Override
     protected void onStart() {
         super.onStart();
-        mLocationClient.connect();
     }
 
     //Activity Stop
     @Override
     protected void onStop() {
         super.onStop();
-        stopLocationUpdates();
-        mLocationClient.disconnect();
-    }
-
-    private boolean servicesConnected() {
-
-        // Check that Google Play services is available
-        int resultCode =
-                GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-
-        // If Google Play services is available
-        if (ConnectionResult.SUCCESS == resultCode) {
-            return true;
-            // Google Play services was not available for some reason
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        startLocationUpdates();
-    }
-
-    protected void startLocationUpdates(){
-        if (servicesConnected()) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mLocationClient, mLocationRequest, this);
-        }
-    }
-
-    protected void stopLocationUpdates(){
-        if (mLocationClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mLocationClient, this);
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
     }
 
     @Override
