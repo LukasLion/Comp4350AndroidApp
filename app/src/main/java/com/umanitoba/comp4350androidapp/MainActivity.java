@@ -55,16 +55,16 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         mTabHost.setup(this, getFragmentManager(), android.R.id.tabcontent);
 
         mTabHost.addTab(
-                mTabHost.newTabSpec("tab0").setIndicator("GPSInfo", null),
+                mTabHost.newTabSpec("tab0").setIndicator("Login", null),
+                UserAccountFragment.class, null);
+        mTabHost.addTab(
+                mTabHost.newTabSpec("tab1").setIndicator("Page 2", null),
                 PlaceholderFragment.class, null);
         mTabHost.addTab(
-                mTabHost.newTabSpec("tab1").setIndicator("Dashboard", null),
+                mTabHost.newTabSpec("tab2").setIndicator("Page 3", null),
                 PlaceholderFragment.class, null);
         mTabHost.addTab(
-                mTabHost.newTabSpec("tab2").setIndicator("Logs", null),
-                PlaceholderFragment.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("tab3").setIndicator("My Otto", null),
+                mTabHost.newTabSpec("tab3").setIndicator("Page 4", null),
                 PlaceholderFragment.class, null);
 
 
@@ -166,6 +166,13 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         return super.onOptionsItemSelected(item);
     }
 
+    public boolean hasUser(){
+        return false;
+    }
+
+    public void signOut(){
+
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState){
