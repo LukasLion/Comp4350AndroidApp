@@ -9,6 +9,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.net.MalformedURLException;
@@ -36,21 +37,46 @@ public class UserLogin {
         this.callback = callback;
         this.context = context;
         try {
-            listenerURL = new URL("http://ec2-52-37-0-160.us-west-2.compute.amazonaws.com/Token");
+            listenerURL = new URL("http://ec2-52-37-252-126.us-west-2.compute.amazonaws.com/Token");
         }
         catch(MalformedURLException e){
             Log.e(TAG, "Listener URL malformed:" + e.getMessage());
         }
     }
 
-    public void createUserLogin(String password, String username){
-        postJSONMap.put("Password", password);
-        postJSONMap.put("UserName", username);
+    public void createUserLogin(final String password, final String username){
 
-        JSONObject obj = new JSONObject(postJSONMap);
-        Log.i(TAG, obj.toString());
         RequestQueue queue = Volley.newRequestQueue(context);
 
+        StringRequest req = new StringRequest(Request.Method.POST, listenerURL.toString(),
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Response", response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("ERROR","error => "+error.toString());
+                    }
+                }
+        ) {
+            // this is the relevant method
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("grant_type", "password");
+                params.put("username", username);
+                params.put("password", password);
+
+                return params;
+            }
+        };
+/*
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, listenerURL.toString(), obj,
                 new Response.Listener<JSONObject>(){
                     @Override
@@ -64,9 +90,13 @@ public class UserLogin {
                     public void onErrorResponse(VolleyError error) {
                         if (error != null)
                             error.printStackTrace();
+                            String errormsg = error.networkResponse.data.toString();
                     }
                 }
-        );
+        ) { @Override
+        public String getBodyContentType() {
+            return "application/x-www-form-urlencoded; charset=utf-8";
+        }};*/
         //{
             //@Override
             //public Map<String, String> getHeaders() throws AuthFailureError {
