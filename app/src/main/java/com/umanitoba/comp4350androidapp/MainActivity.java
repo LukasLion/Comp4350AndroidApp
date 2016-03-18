@@ -2,6 +2,7 @@ package com.umanitoba.comp4350androidapp;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -30,27 +31,39 @@ import android.os.Message;
 public class MainActivity extends Activity {
 
     private FragmentTabHost mTabHost;
+    private String userToken;
+    private String userEmail;
+    private boolean hasUser;
+    private int profileID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        mTabHost.setup(this, getFragmentManager(), android.R.id.tabcontent);
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        hasUser = preferences.getBoolean("UserSignedIn", false);
+        if (hasUser){
+            userEmail = preferences.getString("UserEmail", null);
+            userToken = preferences.getString("UserToken", null);
+        }
 
-        mTabHost.addTab(
-                mTabHost.newTabSpec("tab0").setIndicator("Login", null),
-                UserAccountFragment.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("tab1").setIndicator("Page 2", null),
-                UserProfile.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("tab2").setIndicator("Page 3", null),
-                PlaceholderFragment.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("tab3").setIndicator("Page 4", null),
-                PlaceholderFragment.class, null);
+        if (userEmail.equals(null) || userToken.equals(null))
+            hasUser = false;
+
+        hasUser=false;
+        if (!hasUser){
+            UserAccountFragment userAccountFrag = new UserAccountFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.container, userAccountFrag).commit();
+        }
+        else{
+            MainTabsFragment tabsFragment = new MainTabsFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.container, tabsFragment).commit();
+        }
     }
 
     //Activity Start
@@ -90,7 +103,19 @@ public class MainActivity extends Activity {
     }
 
     public void signOut(){
+        hasUser = false;
+        userToken = null;
+        userEmail = null;
+    }
 
+    public void userSignedIn(String userEmail, String userToken, boolean hasUser){
+        this.userEmail = userEmail;
+        this.userToken = userToken;
+        this.hasUser = hasUser;
+        MainTabsFragment tabsFragment = new MainTabsFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.container, tabsFragment).commit();
     }
 
     @Override

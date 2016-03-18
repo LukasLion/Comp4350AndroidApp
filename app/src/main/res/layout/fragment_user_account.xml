@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="main.java.com.persentech.mobile.ottomobilepro.UserAccountFragment">
+    tools:context="com.umanitoba.comp4350androidapp.UserAccountFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -48,4 +48,15 @@
         android:id="@+id/user_account_login_button"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="80dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Network Error"
+        android:id="@+id/network_error_text"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="170dp"
+        android:textStyle="bold"
+        android:textSize="14dp"
+        android:visibility="invisible" />
 </FrameLayout>

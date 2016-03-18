@@ -17,7 +17,5 @@ public class UserAccount {
         this.userEmail = userEmail;
     }
 
-    public void setUserPassword(String userPassword){
-        this.userPassword = userPassword;
-    }
+
 }

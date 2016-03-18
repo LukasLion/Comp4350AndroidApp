@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 
@@ -106,11 +107,21 @@ public class UserAccountFragment extends Fragment implements OnUserLogin{
 
     @Override
     public void userLoginSuccessful(String userToken) {
+        ((TextView) getView().findViewById(R.id.network_error_text)).setVisibility(View.INVISIBLE);
+        SharedPreferences preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor preferenceEditor = preferences.edit();
+        preferenceEditor.putString("UserEmail", userEmail);
+        preferenceEditor.putString("UserToken", userToken);
+        preferenceEditor.putBoolean("UserSignedIn", true);
+        preferenceEditor.apply();
 
+        ((MainActivity) getActivity()).userSignedIn(userEmail, userToken, true);
     }
 
     @Override
-    public void userLoginFailed() {
-
+    public void userLoginFailed(String errorMessage) {
+        TextView errorText = ((TextView) getView().findViewById(R.id.network_error_text));
+        errorText.setText("Login Error: " + errorMessage);
+        errorText.setVisibility(View.VISIBLE);
     }
 }

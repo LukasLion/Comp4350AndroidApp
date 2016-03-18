@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class UserLogin {
     private HashMap<String, String> postJSONMap;
     private URL listenerURL;
     private Context context;
-    private final String TAG = "FetchMapListTask";
+    private final String TAG = "UserLogin";
     private OnUserLogin callback;
 
     public UserLogin(Context context, OnUserLogin callback){
@@ -54,13 +55,29 @@ public class UserLogin {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", response);
+                        ProcessUserLogin procArray = new ProcessUserLogin();
+                        procArray.execute(response);
                     }
                 },
                 new Response.ErrorListener()
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        String body = null;
+                        String statusCode = String.valueOf(error.networkResponse.statusCode);
+                        if(error.networkResponse.data!=null) {
+                            try {
+                                body = new String(error.networkResponse.data,"UTF-8");
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else
+                            body = "{\"error\":\"unknown_error\",\"error_description\":\"An unknown error occurred.\"}";
                         Log.d("ERROR","error => "+error.toString());
+                        Log.d("ERROR","body => "+body);
+                        ProcessUserLogin procArray = new ProcessUserLogin();
+                        procArray.execute(body);
                     }
                 }
         ) {
@@ -111,14 +128,21 @@ public class UserLogin {
 
     }
 
-    private class ProcessUserLogin extends AsyncTask<JSONObject, Void, Void>{
+    private class ProcessUserLogin extends AsyncTask<String, Void, Void>{
         @Override
-        protected Void doInBackground(JSONObject... params) {
+        protected Void doInBackground(String... params) {
             try {
-                Log.i(TAG, params[0].toString());
-                JSONObject userToken = params[0].getJSONObject("access_token");
-                String stringToken = userToken.getString("value");
-                callback.userLoginSuccessful(stringToken);
+                JSONObject returnInfo = new JSONObject(params[0]);
+                if (returnInfo.has("error")){
+                    String errorMessage = returnInfo.getString("error_description");
+                    Log.d(TAG, errorMessage);
+                    callback.userLoginFailed(errorMessage);
+                }
+                else {
+                    String stringToken = returnInfo.getString("access_token");
+                    Log.d(TAG, stringToken);
+                    callback.userLoginSuccessful(stringToken);
+                }
             }
             catch(JSONException e) {
 
