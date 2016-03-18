@@ -35,7 +35,9 @@ public class MainTabsFragment extends Fragment {
                 MainActivity.PlaceholderFragment.class, null);
         mTabHost.addTab(
                 mTabHost.newTabSpec("tab2").setIndicator("Message", null),
-                MainActivity.PlaceholderFragment.class, null);
+                ConversationsFragment.class, null);
+
+        setHasOptionsMenu(true);
 
         return mTabHost;
     }

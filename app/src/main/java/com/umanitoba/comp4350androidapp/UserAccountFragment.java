@@ -106,13 +106,14 @@ public class UserAccountFragment extends Fragment implements OnUserLogin{
     }
 
     @Override
-    public void userLoginSuccessful(String userToken) {
+    public void userLoginSuccessful(String userToken, String userid) {
         ((TextView) getView().findViewById(R.id.network_error_text)).setVisibility(View.INVISIBLE);
         SharedPreferences preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor preferenceEditor = preferences.edit();
         preferenceEditor.putString("UserEmail", userEmail);
         preferenceEditor.putString("UserToken", userToken);
         preferenceEditor.putBoolean("UserSignedIn", true);
+        preferenceEditor.putString("UserID", userid);
         preferenceEditor.apply();
 
         ((MainActivity) getActivity()).userSignedIn(userEmail, userToken, true);

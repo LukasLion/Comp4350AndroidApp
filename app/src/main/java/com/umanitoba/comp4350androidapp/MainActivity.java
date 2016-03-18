@@ -31,8 +31,9 @@ import android.os.Message;
 public class MainActivity extends Activity {
 
     private FragmentTabHost mTabHost;
-    private String userToken;
-    private String userEmail;
+    private String userToken = "empty";
+    private String userEmail = "empty";
+    private String userID = "empty";
     private boolean hasUser;
     private int profileID;
 
@@ -44,25 +45,19 @@ public class MainActivity extends Activity {
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         hasUser = preferences.getBoolean("UserSignedIn", false);
         if (hasUser){
-            userEmail = preferences.getString("UserEmail", null);
-            userToken = preferences.getString("UserToken", null);
+            userEmail = preferences.getString("UserEmail", "empty");
+            userToken = preferences.getString("UserToken", "empty");
+            userID = preferences.getString("UserID", "empty");
         }
 
-        if (userEmail.equals(null) || userToken.equals(null))
+        if (userID.equals("empty") || userToken.equals("empty"))
             hasUser = false;
 
-        hasUser=false;
         if (!hasUser){
-            UserAccountFragment userAccountFrag = new UserAccountFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.container, userAccountFrag).commit();
+            launchLogin();
         }
         else{
-            MainTabsFragment tabsFragment = new MainTabsFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.container, tabsFragment).commit();
+            launchMainTabs();
         }
     }
 
@@ -92,7 +87,9 @@ public class MainActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_signout) {
+            signOut();
+            launchLogin();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -104,8 +101,30 @@ public class MainActivity extends Activity {
 
     public void signOut(){
         hasUser = false;
-        userToken = null;
-        userEmail = null;
+        userToken = "empty";
+        userEmail = "empty";
+        userID = "empty";
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor preferenceEditor = preferences.edit();
+        preferenceEditor.putString("UserEmail", userEmail);
+        preferenceEditor.putString("UserToken", userToken);
+        preferenceEditor.putBoolean("UserSignedIn", false);
+        preferenceEditor.putString("UserID", userID);
+        preferenceEditor.apply();
+    }
+
+    public void launchLogin(){
+        UserAccountFragment userAccountFrag = new UserAccountFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.container, userAccountFrag).commit();
+    }
+
+    public void launchMainTabs(){
+        MainTabsFragment tabsFragment = new MainTabsFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.container, tabsFragment).commit();
     }
 
     public void userSignedIn(String userEmail, String userToken, boolean hasUser){

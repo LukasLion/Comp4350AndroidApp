@@ -140,8 +140,9 @@ public class UserLogin {
                 }
                 else {
                     String stringToken = returnInfo.getString("access_token");
-                    Log.d(TAG, stringToken);
-                    callback.userLoginSuccessful(stringToken);
+                    String userid = returnInfo.getString("userid");
+                    Log.d(TAG, stringToken + " " + userid);
+                    callback.userLoginSuccessful(stringToken, userid);
                 }
             }
             catch(JSONException e) {
