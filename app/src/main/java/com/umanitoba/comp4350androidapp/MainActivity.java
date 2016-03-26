@@ -48,7 +48,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     //Ahmed code started ------------------------------------------------//
-    public ArrayList<Conference> conferenceList;
+  /*  public ArrayList<Conference> conferenceList;
     public ArrayList<Profile> profileList;
 
     public void showAdapter(ArrayList<String> array) {
@@ -57,11 +57,7 @@ public class MainActivity extends Activity {
         listView.setAdapter(arrayAdapter);
     }
 
-    public void showProfileAdapter(ArrayList<String> array) {
-        ListView listView = (ListView) findViewById(R.id.listView2);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>( this, android.R.layout.simple_list_item_1, array);
-        listView.setAdapter(arrayAdapter);
-    }
+
 
     public void getConferenceList(final ConferenceListener conferenceListener){
         final String url = "http://ec2-52-37-252-126.us-west-2.compute.amazonaws.com/api/ConferencesService";
@@ -80,26 +76,9 @@ public class MainActivity extends Activity {
         });
         // Add the request to the queue
         Request<String> queue = Volley.newRequestQueue(this).add(stringRequest);
-    }
+    } */
 
-    public void getProfileList(final ProfilesListener profilesListener){
-        final String url = "http://ec2-52-37-252-126.us-west-2.compute.amazonaws.com/api/ProfilesService";
-        // Request a string response
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        profilesListener.onSuccessListener(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        // Add the request to the queue
-        Request<String> queue = Volley.newRequestQueue(this).add(stringRequest);
-    }
+
 
     // Ahmed code ended.-----------------------------//
 
@@ -118,48 +97,10 @@ public class MainActivity extends Activity {
 
         // coded by Ahmed. this part is port generating the conference and profile list and redirecting the user to the details acitivity.
 
-        final ListView profileView = (ListView) findViewById((R.id.listView2));
-        final ListView conferenceView = (ListView) findViewById((R.id.listView));
 
-        Button button = (Button) findViewById(R.id.getAllconferences);
-        Button buttonProfiles = (Button) findViewById(R.id.getAllProfiles);
+ /*       final ListView conferenceView = (ListView) findViewById((R.id.listView));
 
-        buttonProfiles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                conferenceView.setVisibility(View.GONE);
-                profileView.setVisibility(View.VISIBLE);
-
-                ProfilesListener profilesListener = new ProfilesListener() {
-                    @Override
-                    public void onSuccessListener(String result) {
-                        ArrayList<Profile> profiles = new ArrayList<Profile>();
-                        ArrayList<String> myListView = new ArrayList<String>();
-
-                        try {
-
-                            JSONArray array = new JSONArray(result);
-
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject object = array.getJSONObject(i);
-                                Profile profile = new Profile(Integer.parseInt(object.getString("ProfileId")), object.getString("UserId"), Integer.parseInt(object.getString("Age")), object.getString("City"), object.getString("Country"), object.getString("Degree"), object.getString("FirstName"), object.getString("LastName"),object.getString("School"));
-                                profiles.add(profile);
-                                myListView.add(profile.getFirstName() + " " + profile.getLastName());
-                            }
-
-                            showProfileAdapter(myListView);
-                            profileList = profiles;
-
-                        } catch(JSONException e){
-                            System.out.println(e.toString());
-                        }
-                    }
-                };
-
-                getProfileList(profilesListener);
-            }
-        });
 
 
 
@@ -168,7 +109,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
 
 
-                profileView.setVisibility(View.GONE);
+
                 conferenceView.setVisibility(View.VISIBLE);
 
                 ConferenceListener conferenceListener = new ConferenceListener() {
@@ -223,7 +164,7 @@ public class MainActivity extends Activity {
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
-        });
+        });*/
 
         //code ended by Ahmed-------------------------------------------------------------//
 

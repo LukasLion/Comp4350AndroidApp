@@ -106,23 +106,33 @@ public class UserAccountFragment extends Fragment implements OnUserLogin{
     }
 
     @Override
-    public void userLoginSuccessful(String userToken, String userid) {
-        ((TextView) getView().findViewById(R.id.network_error_text)).setVisibility(View.INVISIBLE);
-        SharedPreferences preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor preferenceEditor = preferences.edit();
-        preferenceEditor.putString("UserEmail", userEmail);
-        preferenceEditor.putString("UserToken", userToken);
-        preferenceEditor.putBoolean("UserSignedIn", true);
-        preferenceEditor.putString("UserID", userid);
-        preferenceEditor.apply();
+    public void userLoginSuccessful(final String userToken, final String userid) {
+        ((MainActivity) getActivity()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((TextView) getView().findViewById(R.id.network_error_text)).setVisibility(View.INVISIBLE);
+                SharedPreferences preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor preferenceEditor = preferences.edit();
+                preferenceEditor.putString("UserEmail", userEmail);
+                preferenceEditor.putString("UserToken", userToken);
+                preferenceEditor.putBoolean("UserSignedIn", true);
+                preferenceEditor.putString("UserID", userid);
+                preferenceEditor.apply();
 
-        ((MainActivity) getActivity()).userSignedIn(userEmail, userToken, true);
+                ((MainActivity) getActivity()).userSignedIn(userEmail, userToken, true);
+            }
+        });
     }
 
     @Override
-    public void userLoginFailed(String errorMessage) {
-        TextView errorText = ((TextView) getView().findViewById(R.id.network_error_text));
-        errorText.setText("Login Error: " + errorMessage);
-        errorText.setVisibility(View.VISIBLE);
+    public void userLoginFailed(final String errorMessage) {
+        ((MainActivity) getActivity()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView errorText = ((TextView) getView().findViewById(R.id.network_error_text));
+                errorText.setText("Login Error: " + errorMessage);
+                errorText.setVisibility(View.VISIBLE);
+            }
+        });
     }
 }

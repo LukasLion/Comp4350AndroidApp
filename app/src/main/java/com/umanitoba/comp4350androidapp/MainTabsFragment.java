@@ -29,7 +29,7 @@ public class MainTabsFragment extends Fragment {
 
         mTabHost.addTab(
                 mTabHost.newTabSpec("tab0").setIndicator("Profile", null),
-                UserProfile.class, null);
+                ProfileList.class, null);
         mTabHost.addTab(
                 mTabHost.newTabSpec("tab1").setIndicator("Conference", null),
                 MainActivity.PlaceholderFragment.class, null);
