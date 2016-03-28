@@ -1,18 +1,20 @@
 package com.umanitoba.comp4350androidapp;
 
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v13.app.FragmentTabHost;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TabHost;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainTabsFragment extends Fragment {
+public class MainTabsFragment extends Fragment implements TabHost.OnTabChangeListener{
 
     private FragmentTabHost mTabHost;
 
@@ -39,7 +41,37 @@ public class MainTabsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
+        mTabHost.setOnTabChangedListener(this);
+
         return mTabHost;
     }
 
+    public FragmentTabHost getTabHost(){
+        return mTabHost;
+    }
+
+    public Fragment currentTab(){
+        if (mTabHost.getCurrentTab() == 0){
+            return (ProfileList)getChildFragmentManager().findFragmentByTag("tab0");
+        }
+        return null;
+    }
+
+    @Override
+    public void onTabChanged(String tabId) {
+        /*if (tabId.equals("tab0")){
+            ProfileList profileList = (ProfileList)getChildFragmentManager().findFragmentByTag("tab0");
+            profileList.getFragmentManager().popBackStackImmediate();
+        }
+        /*
+        else if (tabId.equals("tab1")){
+            //ProfileList profileList = (ProfileList)getFragmentManager().findFragmentByTag("tab0");
+            //profileList.getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+        else if (tabId.equals("tab2")){
+            //ProfileList profileList = (ProfileList)getFragmentManager().findFragmentByTag("tab0");
+            //profileList.getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+        */
+    }
 }

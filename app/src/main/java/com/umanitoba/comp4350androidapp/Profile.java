@@ -22,6 +22,9 @@ public class Profile implements Parcelable, Serializable {
     private String lastName;
     private String school;
 
+    public Profile(){
+
+    }
 
     public Profile(int profileId, String userId, int age, String city, String country, String degree, String firstName, String lastName, String school) {
         this.setProfileId(profileId);

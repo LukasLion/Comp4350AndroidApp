@@ -42,6 +42,8 @@ public class ProfileList extends Fragment {
     private String mParam2;
 
     private ArrayList<Profile> profileList;
+    private ArrayList<String> profileNames;
+    private ProfilesListener profilesListener;
 
 
     public ProfileList() {
@@ -76,29 +78,39 @@ public class ProfileList extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            profileList = savedInstanceState.getParcelableArrayList("ProfileList");
+            profileNames = savedInstanceState.getStringArrayList("ProfileNames");
+        }
+        else{
+            profileList = null;
+            profileNames = null;
         }
 
-        ProfilesListener profilesListener = new ProfilesListener() {
+        profilesListener = new ProfilesListener() {
             @Override
             public void onSuccessListener(String result) {
-                ArrayList<Profile> profiles = new ArrayList<Profile>();
-                ArrayList<String> myListView = new ArrayList<String>();
-
                 try {
 
                     JSONArray array = new JSONArray(result);
 
+                    if (profileList == null)
+                        profileList = new ArrayList<Profile>();
+                    else if (!profileList.isEmpty())
+                        profileList.clear();
+
+                    if (profileNames == null)
+                        profileNames = new ArrayList<String>();
+                    else if (!profileNames.isEmpty())
+                        profileNames.clear();
+
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object = array.getJSONObject(i);
                         Profile profile = new Profile(Integer.parseInt(object.getString("ProfileId")), object.getString("UserId"), Integer.parseInt(object.getString("Age")), object.getString("City"), object.getString("Country"), object.getString("Degree"), object.getString("FirstName"), object.getString("LastName"),object.getString("School"));
-                        profiles.add(profile);
-                        myListView.add(profile.getFirstName() + " " + profile.getLastName());
+                        profileList.add(profile);
+                        profileNames.add(profile.getFirstName() + " " + profile.getLastName());
                     }
 
-                    showProfileAdapter(myListView);
-                    profileList = profiles;
+                    showProfileAdapter(profileNames);
 
                 } catch(JSONException e){
                     System.out.println(e.toString());
@@ -118,14 +130,34 @@ public class ProfileList extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Profile profile = profileList.get(position);
-                ProfileFragment profileFragment = ProfileFragment.newInstance(profile);
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction().add(profileFragment, "ProfileDetails"); //(R.layout.profile_layout, profileFragment).addToBackStack("ProfileDetails");
-                transaction.commit();
-                fragmentManager.
+                if (profile != null) {
+                    ProfileFragment profileFragment = new ProfileFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("Profile", profile);
+                    profileFragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction().replace(R.id.container, profileFragment).addToBackStack(null);
+                    transaction.commit();
+                }
             }
         });
+        if (profileList == null)
+            getProfileList(profilesListener);
         return view;
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        if (profileList != null && !profileList.isEmpty()){
+            outState.putParcelableArrayList("ProfileList", profileList);
+            outState.putStringArrayList("ProfileNames", profileNames);
+        }
     }
 
     public void getProfileList(final ProfilesListener profilesListener){
@@ -144,7 +176,7 @@ public class ProfileList extends Fragment {
             }
         });
         // Add the request to the queue
-        Request<String> queue = Volley.newRequestQueue(getContext()).add(stringRequest);
+        Request<String> queue = Volley.newRequestQueue(getActivity().getApplicationContext()).add(stringRequest);
     }
 
 }

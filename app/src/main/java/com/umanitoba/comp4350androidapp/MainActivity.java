@@ -89,6 +89,8 @@ public class MainActivity extends Activity {
     private String userID = "empty";
     private boolean hasUser;
     private int profileID;
+    private String currentFragmentName;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,6 +223,20 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed(){
+        if (currentFragmentName.equals("tabs")){
+            FragmentTabHost fragmentTabHost = ((MainTabsFragment)currentFragment).getTabHost();
+            if (fragmentTabHost.getCurrentTab() == 0) {
+                ProfileList profileList = (ProfileList)((MainTabsFragment)currentFragment).currentTab();
+                profileList.getFragmentManager().popBackStackImmediate();
+            }
+        }
+        else{
+            super.onBackPressed();
+        }
+    }
+
     public boolean hasUser(){
         return false;
     }
@@ -241,6 +257,8 @@ public class MainActivity extends Activity {
 
     public void launchLogin(){
         UserAccountFragment userAccountFrag = new UserAccountFragment();
+        currentFragmentName = "login";
+        currentFragment = userAccountFrag;
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.container, userAccountFrag).commit();
@@ -248,6 +266,8 @@ public class MainActivity extends Activity {
 
     public void launchMainTabs(){
         MainTabsFragment tabsFragment = new MainTabsFragment();
+        currentFragmentName = "tabs";
+        currentFragment = tabsFragment;
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.replace(R.id.container, tabsFragment).commit();
