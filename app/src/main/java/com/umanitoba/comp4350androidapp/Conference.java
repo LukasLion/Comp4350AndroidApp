@@ -3,10 +3,12 @@ package com.umanitoba.comp4350androidapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created by zunaid on 2016-03-19.
  */
-public class Conference implements Parcelable{
+public class Conference implements Parcelable, Serializable{
 
     private int conferenceId;
     private String content;
