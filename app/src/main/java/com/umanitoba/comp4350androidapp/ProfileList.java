@@ -105,7 +105,13 @@ public class ProfileList extends Fragment {
 
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object = array.getJSONObject(i);
-                        Profile profile = new Profile(Integer.parseInt(object.getString("ProfileId")), object.getString("UserId"), Integer.parseInt(object.getString("Age")), object.getString("City"), object.getString("Country"), object.getString("Degree"), object.getString("FirstName"), object.getString("LastName"),object.getString("School"));
+                        Profile profile = null;
+                        try{
+                            profile = new Profile(Integer.parseInt(object.getString("ProfileId")), object.getString("UserId"), Integer.parseInt(object.getString("Age")), object.getString("City"), object.getString("Country"), object.getString("Degree"), object.getString("FirstName"), object.getString("LastName"),object.getString("School"));
+                        }
+                        catch (NumberFormatException exception){
+                            profile = new Profile(Integer.parseInt(object.getString("ProfileId")), object.getString("UserId"), 200, object.getString("City"), object.getString("Country"), object.getString("Degree"), object.getString("FirstName"), object.getString("LastName"),object.getString("School"));
+                        }
                         profileList.add(profile);
                         profileNames.add(profile.getFirstName() + " " + profile.getLastName());
                     }
@@ -136,19 +142,28 @@ public class ProfileList extends Fragment {
                     bundle.putSerializable("Profile", profile);
                     profileFragment.setArguments(bundle);
                     FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction transaction = fragmentManager.beginTransaction().replace(R.id.container, profileFragment).addToBackStack(null);
+                    FragmentTransaction transaction = fragmentManager.beginTransaction().add(R.id.container, profileFragment).addToBackStack(null);
+                    transaction.detach(ProfileList.this);
                     transaction.commit();
                 }
             }
         });
-        if (profileList == null)
-            getProfileList(profilesListener);
         return view;
     }
 
     @Override
     public void onPause(){
         super.onPause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (profileList == null)
+            getProfileList(profilesListener);
+        else {
+            showProfileAdapter(profileNames);
+        }
     }
 
     @Override
@@ -177,6 +192,13 @@ public class ProfileList extends Fragment {
         });
         // Add the request to the queue
         Request<String> queue = Volley.newRequestQueue(getActivity().getApplicationContext()).add(stringRequest);
+    }
+
+    public void detachFromManager(){
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.detach(ProfileList.this);
+        transaction.commit();
     }
 
 }

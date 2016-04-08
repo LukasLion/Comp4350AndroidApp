@@ -37,7 +37,7 @@ public class MainTabsFragment extends Fragment implements TabHost.OnTabChangeLis
                 MainActivity.PlaceholderFragment.class, null);
         mTabHost.addTab(
                 mTabHost.newTabSpec("tab2").setIndicator("Message", null),
-                ConversationsFragment.class, null);
+                ConferenceList.class, null);
 
         setHasOptionsMenu(true);
 
@@ -59,9 +59,10 @@ public class MainTabsFragment extends Fragment implements TabHost.OnTabChangeLis
 
     @Override
     public void onTabChanged(String tabId) {
-        /*if (tabId.equals("tab0")){
+        if (!tabId.equals("tab0")){
             ProfileList profileList = (ProfileList)getChildFragmentManager().findFragmentByTag("tab0");
-            profileList.getFragmentManager().popBackStackImmediate();
+            boolean popped = profileList.getFragmentManager().popBackStackImmediate();
+            profileList.detachFromManager();
         }
         /*
         else if (tabId.equals("tab1")){
