@@ -6,7 +6,17 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -54,6 +64,27 @@ public class UserProfile extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    public void buttonOnClick(View v) {
+        final String url = "http://ec2-52-37-252-126.us-west-2.compute.amazonaws.com/api/FollowService/Follow";
+        // Request a string response
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,null, null){
+            // this is the relevant method
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("followerId", followerId);
+                params.put("followingId", followingId);
+
+                return params;
+            }
+        };
+        // Add the request to the queue
+        Request<String> queue = Volley.newRequestQueue(getActivity().getApplicationContext()).add(stringRequest);
+
+
     }
 
     @Override

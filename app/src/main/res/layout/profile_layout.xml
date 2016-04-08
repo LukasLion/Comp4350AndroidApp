@@ -133,4 +133,13 @@
         android:layout_toRightOf="@+id/countryLabel"
         android:layout_toEndOf="@+id/countryLabel" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Follow"
+        android:id="@+id/followButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="buttonOnClick()" />
+
 </RelativeLayout>
