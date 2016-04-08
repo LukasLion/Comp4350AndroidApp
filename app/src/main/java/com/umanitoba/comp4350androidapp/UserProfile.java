@@ -66,26 +66,7 @@ public class UserProfile extends Fragment {
         }
     }
 
-    public void buttonOnClick(View v) {
-        final String url = "http://ec2-52-37-252-126.us-west-2.compute.amazonaws.com/api/FollowService/Follow";
-        // Request a string response
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,null, null){
-            // this is the relevant method
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("followerId", followerId);
-                params.put("followingId", followingId);
 
-                return params;
-            }
-        };
-        // Add the request to the queue
-        Request<String> queue = Volley.newRequestQueue(getActivity().getApplicationContext()).add(stringRequest);
-
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
