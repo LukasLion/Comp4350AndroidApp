@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +36,14 @@ public class ConferenceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_conference, container, false);
+        View view = inflater.inflate(R.layout.conference_layout, container, false);
 
-        TextView conferenceName = (TextView) view.findViewById(R.id.conferenceName);
-        TextView when = (TextView) view.findViewById(R.id.when);
-        TextView where = (TextView) view.findViewById(R.id.where);
-        TextView contact = (TextView) view.findViewById(R.id.contact);
-        TextView content = (TextView) view.findViewById(R.id.content);
+        TextView conferenceName = (TextView) view.findViewById(R.id.conference_label);
+        TextView when = (TextView) view.findViewById(R.id.when_label);
+        TextView where = (TextView) view.findViewById(R.id.where_label);
+        TextView contact = (TextView) view.findViewById(R.id.contact_label);
+        TextView content = (TextView) view.findViewById(R.id.content_label);
+        content.setMovementMethod(new ScrollingMovementMethod());
 
         conferenceName.setText(conference.getTitle());
         when.setText(conference.getDate());

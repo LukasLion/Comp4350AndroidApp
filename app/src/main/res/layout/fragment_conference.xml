@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Conference Name:"
-        android:id="@+id/conferenceLabel"
+        android:id="@+id/conference_label"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -19,17 +19,17 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/conferenceName"
-        android:layout_alignTop="@+id/conferenceLabel"
-        android:layout_toRightOf="@+id/conferenceLabel"
-        android:layout_toEndOf="@+id/conferenceLabel" />
+        android:layout_alignTop="@+id/conference_label"
+        android:layout_toRightOf="@+id/conference_label"
+        android:layout_toEndOf="@+id/conference_label" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="When"
-        android:id="@+id/whenLabel"
-        android:layout_below="@+id/conferenceLabel"
+        android:id="@+id/when_label"
+        android:layout_below="@+id/conference_label"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -38,9 +38,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/when"
-        android:layout_below="@+id/conferenceLabel"
-        android:layout_toRightOf="@+id/whenLabel"
-        android:layout_toEndOf="@+id/whenLabel" />
+        android:layout_below="@+id/conference_label"
+        android:layout_toRightOf="@+id/when_label"
+        android:layout_toEndOf="@+id/when_label" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Where"
         android:id="@+id/whereLabel"
-        android:layout_below="@+id/whenLabel"
+        android:layout_below="@+id/when_label"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

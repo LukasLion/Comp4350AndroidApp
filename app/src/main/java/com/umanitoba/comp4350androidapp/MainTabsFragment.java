@@ -17,6 +17,8 @@ import android.widget.TabHost;
 public class MainTabsFragment extends Fragment implements TabHost.OnTabChangeListener{
 
     private FragmentTabHost mTabHost;
+    private String currentTab = "tab0";
+    private String previousTab;
 
     public MainTabsFragment() {
         // Required empty public constructor
@@ -33,10 +35,10 @@ public class MainTabsFragment extends Fragment implements TabHost.OnTabChangeLis
                 mTabHost.newTabSpec("tab0").setIndicator("Profile", null),
                 ProfileList.class, null);
         mTabHost.addTab(
-                mTabHost.newTabSpec("tab1").setIndicator("Conference", null),
-                MainActivity.PlaceholderFragment.class, null);
+                mTabHost.newTabSpec("tab1").setIndicator("Message", null),
+                ConversationsFragment.class, null);
         mTabHost.addTab(
-                mTabHost.newTabSpec("tab2").setIndicator("Message", null),
+                mTabHost.newTabSpec("tab2").setIndicator("Conference", null),
                 ConferenceList.class, null);
 
         setHasOptionsMenu(true);
@@ -54,25 +56,31 @@ public class MainTabsFragment extends Fragment implements TabHost.OnTabChangeLis
         if (mTabHost.getCurrentTab() == 0){
             return (ProfileList)getChildFragmentManager().findFragmentByTag("tab0");
         }
+        else if (mTabHost.getCurrentTab() == 2){
+            return (ConferenceList)getChildFragmentManager().findFragmentByTag("tab2");
+        }
         return null;
     }
 
     @Override
     public void onTabChanged(String tabId) {
-        if (!tabId.equals("tab0")){
+        previousTab = currentTab;
+        currentTab = tabId;
+        if (previousTab.equals("tab0")){
             ProfileList profileList = (ProfileList)getChildFragmentManager().findFragmentByTag("tab0");
-            boolean popped = profileList.getFragmentManager().popBackStackImmediate();
+            if (profileList.getFragmentManager().getBackStackEntryCount() > 0);
+                boolean popped = profileList.getFragmentManager().popBackStackImmediate();
             profileList.detachFromManager();
         }
-        /*
-        else if (tabId.equals("tab1")){
+        else if (previousTab.equals("tab1")){
             //ProfileList profileList = (ProfileList)getFragmentManager().findFragmentByTag("tab0");
             //profileList.getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
-        else if (tabId.equals("tab2")){
-            //ProfileList profileList = (ProfileList)getFragmentManager().findFragmentByTag("tab0");
-            //profileList.getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        else if (previousTab.equals("tab2")){
+            ConferenceList conferenceList = (ConferenceList)getChildFragmentManager().findFragmentByTag("tab2");
+            if (conferenceList.getFragmentManager().getBackStackEntryCount() > 0);
+                boolean popped = conferenceList.getFragmentManager().popBackStackImmediate();
+            conferenceList.detachFromManager();
         }
-        */
     }
 }

@@ -13,77 +13,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Conference Name:"
-        android:id="@+id/conferenceLabel"
+        android:text="Conference Name"
+        android:id="@+id/conference_label"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/conferenceName"
-        android:layout_alignTop="@+id/conferenceLabel"
-        android:layout_toRightOf="@+id/conferenceLabel"
-        android:layout_toEndOf="@+id/conferenceLabel" />
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="When"
-        android:id="@+id/whenLabel"
-        android:layout_below="@+id/conferenceLabel"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/when_label"
+        android:layout_marginLeft="35dp"
+        android:layout_below="@+id/conference_label"
+        android:layout_marginTop="40dp"
+        android:textSize="17dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/when"
-        android:layout_below="@+id/conferenceLabel"
-        android:layout_toRightOf="@+id/whenLabel"
-        android:layout_toEndOf="@+id/whenLabel" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Where"
-        android:id="@+id/whereLabel"
-        android:layout_below="@+id/whenLabel"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/where_label"
+        android:layout_below="@+id/when_label"
+        android:layout_alignStart="@+id/when_label"
+        android:layout_marginTop="40dp"
+        android:textSize="17dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/where"
-        android:layout_below="@+id/when"
-        android:layout_toRightOf="@+id/when"
-        android:layout_toEndOf="@+id/when" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Contact"
-        android:id="@+id/contact"
-        android:layout_below="@+id/content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/contact_label"
+        android:layout_below="@+id/where_label"
+        android:layout_alignStart="@+id/where_label"
+        android:layout_marginTop="40dp"
+        android:textSize="17dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/content"
-        android:layout_below="@+id/where"
-        android:layout_alignRight="@+id/conferenceName"
-        android:layout_alignEnd="@+id/conferenceName" />
+        android:text="Content"
+        android:id="@+id/content_label"
+        android:textSize="17dp"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/contact_label"
+        android:layout_marginTop="40dp"
+        android:scrollbars="vertical"
+        android:layout_below="@+id/contact_label" />
 
 </RelativeLayout>

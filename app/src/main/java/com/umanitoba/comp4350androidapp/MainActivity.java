@@ -3,91 +3,28 @@ package com.umanitoba.comp4350androidapp;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentTabHost;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TabHost;
-import android.os.Message;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.view.Window;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity {
-
-    //Ahmed code started ------------------------------------------------//
-  /*  public ArrayList<Conference> conferenceList;
-    public ArrayList<Profile> profileList;
-
-    public void showAdapter(ArrayList<String> array) {
-        ListView listView = (ListView) findViewById(R.id.listView);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>( this, android.R.layout.simple_list_item_1, array);
-        listView.setAdapter(arrayAdapter);
-    }
-
-
-
-    public void getConferenceList(final ConferenceListener conferenceListener){
-        final String url = "http://ec2-52-37-252-126.us-west-2.compute.amazonaws.com/api/ConferencesService";
-        // Request a string response
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        conferenceListener.onSuccessListener(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        // Add the request to the queue
-        Request<String> queue = Volley.newRequestQueue(this).add(stringRequest);
-    } */
-
-
-
-    // Ahmed code ended.-----------------------------//
-
-
+public class MainActivity extends AppCompatActivity {
     private FragmentTabHost mTabHost;
     private String userToken = "empty";
     private String userEmail = "empty";
     private String userID = "empty";
-    private boolean hasUser;
+    private boolean hasUser = false;
     private int profileID;
     private String currentFragmentName;
     private Fragment currentFragment;
@@ -96,79 +33,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // coded by Ahmed. this part is port generating the conference and profile list and redirecting the user to the details acitivity.
-
-
- /*       final ListView conferenceView = (ListView) findViewById((R.id.listView));
-
-
-
-
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-                conferenceView.setVisibility(View.VISIBLE);
-
-                ConferenceListener conferenceListener = new ConferenceListener() {
-                    @Override
-                    public void onSuccessListener(String result) {
-
-                        ArrayList<Conference> conferences = new ArrayList<Conference>();
-                        ArrayList<String> myListView = new ArrayList<String>();
-
-                        try {
-
-                            JSONArray array = new JSONArray(result);
-
-                            for (int i = 0; i < array.length(); i++) {
-                                JSONObject object = array.getJSONObject(i);
-                                Conference conference = new Conference(Integer.parseInt(object.getString("ConferenceId")), object.getString("Content"), object.getString("Date"), object.getString("FirstName"), object.getString("LastName"), object.getString("Location"), Integer.parseInt(object.getString("ProfileId")),object.getString("Title"));
-                                conferences.add(conference);
-                                myListView.add(object.getString("Date").substring(0, 10) + "  " + object.getString("Title"));
-                            }
-
-                            showAdapter(myListView);
-                            conferenceList = conferences;
-
-                        } catch(JSONException e){
-                            System.out.println(e.toString());
-                        }
-                    }
-                };
-                getConferenceList(conferenceListener);
-            }
-        });
-
-        ListView lv = (ListView) findViewById(R.id.listView);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, ConferenceActivity.class);
-                Conference conference = conferenceList.get(position);
-                intent.putExtra("Conference", conference);
-                startActivity(intent);
-            }
-        });
-
-        ListView lv2 = (ListView) findViewById(R.id.listView2);
-        lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                Bundle bundle = new Bundle();
-                Profile profile = profileList.get(position);
-                bundle.putSerializable("Profile", profile);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });*/
-
-        //code ended by Ahmed-------------------------------------------------------------//
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         hasUser = preferences.getBoolean("UserSignedIn", false);
@@ -229,7 +95,17 @@ public class MainActivity extends Activity {
             FragmentTabHost fragmentTabHost = ((MainTabsFragment)currentFragment).getTabHost();
             if (fragmentTabHost.getCurrentTab() == 0) {
                 ProfileList profileList = (ProfileList)((MainTabsFragment)currentFragment).currentTab();
+                if (profileList.getFragmentManager().getBackStackEntryCount() > 0)
+                    profileList.getFragmentManager().popBackStackImmediate();
+            }
+            if (fragmentTabHost.getCurrentTab() == 1) {
+                ProfileList profileList = (ProfileList)((MainTabsFragment)currentFragment).currentTab();
                 profileList.getFragmentManager().popBackStackImmediate();
+            }
+            if (fragmentTabHost.getCurrentTab() == 2) {
+                ConferenceList conferenceList = (ConferenceList)((MainTabsFragment)currentFragment).currentTab();
+                if (conferenceList.getFragmentManager().getBackStackEntryCount() > 0)
+                    conferenceList.getFragmentManager().popBackStackImmediate();
             }
         }
         else{
@@ -238,8 +114,12 @@ public class MainActivity extends Activity {
     }
 
     public boolean hasUser(){
-        return false;
+        return hasUser;
     }
+
+    public String getUserID() { return userID; }
+
+    public String getUserToken() { return userToken; }
 
     public void signOut(){
         hasUser = false;

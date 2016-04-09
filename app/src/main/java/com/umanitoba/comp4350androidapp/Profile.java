@@ -21,12 +21,13 @@ public class Profile implements Parcelable, Serializable {
     private String firstName;
     private String lastName;
     private String school;
+    private int userImage;
 
     public Profile(){
 
     }
 
-    public Profile(int profileId, String userId, int age, String city, String country, String degree, String firstName, String lastName, String school) {
+    public Profile(int profileId, String userId, int age, String city, String country, String degree, String firstName, String lastName, String school, int userImage) {
         this.setProfileId(profileId);
         this.setUserId(userId);
         this.setAge(age);
@@ -36,6 +37,7 @@ public class Profile implements Parcelable, Serializable {
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setSchool(school);
+        this.setUserImage(userImage);
     }
 
     public Profile(Parcel in){
@@ -49,6 +51,7 @@ public class Profile implements Parcelable, Serializable {
         firstName = in.readString();
         lastName = in.readString();
         school = in.readString();
+        userImage = in.readInt();
     }
 
 
@@ -136,6 +139,14 @@ public class Profile implements Parcelable, Serializable {
         this.school = school;
     }
 
+    public int getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(int userImage) {
+        this.userImage = userImage;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -152,5 +163,6 @@ public class Profile implements Parcelable, Serializable {
         dest.writeString(lastName);
         dest.writeString(school);
         dest.writeString(userId);
+        dest.writeInt(userImage);
     }
 }

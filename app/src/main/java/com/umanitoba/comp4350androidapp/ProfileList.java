@@ -105,13 +105,7 @@ public class ProfileList extends Fragment {
 
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object = array.getJSONObject(i);
-                        Profile profile = null;
-                        try{
-                            profile = new Profile(Integer.parseInt(object.getString("ProfileId")), object.getString("UserId"), Integer.parseInt(object.getString("Age")), object.getString("City"), object.getString("Country"), object.getString("Degree"), object.getString("FirstName"), object.getString("LastName"),object.getString("School"));
-                        }
-                        catch (NumberFormatException exception){
-                            profile = new Profile(Integer.parseInt(object.getString("ProfileId")), object.getString("UserId"), 200, object.getString("City"), object.getString("Country"), object.getString("Degree"), object.getString("FirstName"), object.getString("LastName"),object.getString("School"));
-                        }
+                        Profile profile = new Profile(object.optInt("ProfileId"), object.getString("UserId"), object.optInt("Age", 200), object.getString("City"), object.getString("Country"), object.getString("Degree"), object.getString("FirstName"), object.getString("LastName"),object.getString("School"), object.optInt("UserImage", -1));
                         profileList.add(profile);
                         profileNames.add(profile.getFirstName() + " " + profile.getLastName());
                     }
@@ -197,7 +191,7 @@ public class ProfileList extends Fragment {
     public void detachFromManager(){
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.detach(ProfileList.this);
+        transaction.detach(this);
         transaction.commit();
     }
 

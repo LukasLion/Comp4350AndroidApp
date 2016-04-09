@@ -36,7 +36,8 @@
         android:id="@+id/name"
         android:layout_alignTop="@+id/nameLabel"
         android:layout_toRightOf="@+id/nameLabel"
-        android:layout_toEndOf="@+id/nameLabel" />
+        android:layout_toEndOf="@+id/nameLabel"
+        android:layout_marginLeft="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,7 +56,8 @@
         android:id="@+id/school"
         android:layout_below="@+id/nameLabel"
         android:layout_toRightOf="@+id/nameLabel"
-        android:layout_toEndOf="@+id/nameLabel" />
+        android:layout_toEndOf="@+id/nameLabel"
+        android:layout_marginLeft="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -73,8 +75,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/degree"
         android:layout_below="@+id/school"
-        android:layout_toRightOf="@+id/school"
-        android:layout_toEndOf="@+id/school" />
+        android:layout_toRightOf="@+id/degreeLabel"
+        android:layout_marginLeft="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -93,7 +95,8 @@
         android:id="@+id/age"
         android:layout_below="@+id/degreeLabel"
         android:layout_toRightOf="@+id/ageLabel"
-        android:layout_toEndOf="@+id/ageLabel" />
+        android:layout_toEndOf="@+id/ageLabel"
+        android:layout_marginLeft="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -111,8 +114,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/city"
         android:layout_below="@+id/age"
-        android:layout_toRightOf="@+id/age"
-        android:layout_toEndOf="@+id/age" />
+        android:layout_toRightOf="@+id/cityLabel"
+        android:layout_marginLeft="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -131,6 +134,18 @@
         android:id="@+id/country"
         android:layout_alignTop="@+id/countryLabel"
         android:layout_toRightOf="@+id/countryLabel"
-        android:layout_toEndOf="@+id/countryLabel" />
+        android:layout_toEndOf="@+id/countryLabel"
+        android:layout_marginLeft="5dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_image"
+        android:layout_below="@+id/country"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp" />
 
 </RelativeLayout>

@@ -120,8 +120,18 @@ public class ConferenceList extends Fragment {
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
         if (conferenceList != null && !conferenceList.isEmpty()){
-            outState.putParcelableArrayList("ConferencList", conferenceList);
+            outState.putParcelableArrayList("ConferenceList", conferenceList);
             outState.putStringArrayList("ConferenceNames", conferenceNames);
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (conferenceList == null)
+            getConferenceList(conferenceListener);
+        else {
+            showConferenceAdapter(conferenceNames);
         }
     }
 
@@ -160,14 +170,19 @@ public class ConferenceList extends Fragment {
                     bundle.putSerializable("Conference", conference);
                     conferenceFragment.setArguments(bundle);
                     FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction transaction = fragmentManager.beginTransaction().replace(R.id.container, conferenceFragment).addToBackStack(null);
+                    FragmentTransaction transaction = fragmentManager.beginTransaction().add(R.id.container, conferenceFragment).addToBackStack(null);
+                    transaction.detach(ConferenceList.this);
                     transaction.commit();
                 }
             }
         });
-        if (conferenceList == null)
-            getConferenceList(conferenceListener);
         return view;
+    }
 
+    public void detachFromManager(){
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.detach(this);
+        transaction.commit();
     }
 }
